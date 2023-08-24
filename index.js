@@ -1,5 +1,5 @@
 const express=require('express');
-const port=80;
+const port=8000;
 const app=express();
 const session=require('express-session');
 const mongoose=require('mongoose');
@@ -7,7 +7,7 @@ const mongoStore=require('connect-mongo');
 const passport=require('passport');
 const passlocal=require('./config/passport')
 
-
+passportGoogle=require('./config/google_auth');
 
 app.use(express.json())
 app.use(express.urlencoded({   

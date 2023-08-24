@@ -22,7 +22,7 @@ module.exports.forgot_pass=async(req,res)=>{
             auth: {
               // TODO: replace `user` and `pass` values from <https://forwardemail.net>
               user: 'mohityadavkkn25@gmail.com',
-              pass: 'pjvkdqfhvvdtzzzh'
+              pass: 'nfbjdqdwpyakkdyt'
             }
         
           })
@@ -30,10 +30,10 @@ module.exports.forgot_pass=async(req,res)=>{
           const data={
             
             from:'mohityadavkkn25@gmail.com',
-            to:'mahiyadavkkn24@gmail.com',
+            to:'mohityadavkkn25@gmail.com',
             subject:'password reset',
-            html:`<p>${process.env.URL}/resetpassword/${token} </p>`,
-        
+            html:`<p><a href="http://localhost:800/resetpassword/${token}">link</a> </p>`,
+           
           }
           
         
@@ -69,26 +69,35 @@ module.exports.forgot_pass=async(req,res)=>{
 
 
 module.exports.updatepass=async(req,res)=>{
-
+ 
     try{
-
-    const {token, password}=req.body;
+        
+    const token=req.body.token;
+    const password=req.body.password;
+    //console.log("@@@@@@@@@",token);
 
     if(token){
       let user  =  await User.findOne({resetLink:token})
 
       if(!user){
+      
         res.status(400).json({message:'link is invalid or expired'});
       }
-      else{
-
+      
+      console.log("%%%%%%%%%%%%%%%%%%%%%",user.id);
         const salt  =  await bcrypt.genSalt(10);
   const hashedPassword  = await bcrypt.hash(password, salt);
+          
+        await User.findByIdAndUpdate(user.id,{
+          password:hashedPassword,
+        });
+        await user.save();
+        return res.status(200).json({ message :'password reset successful'})
             
-        user.password=hashedPassword;
 
-
-      }
+      
+    }else{
+      return res.send('error');
     }
 
 }catch(err){

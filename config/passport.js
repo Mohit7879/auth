@@ -9,11 +9,14 @@ const User = require('../model/user');
 // authentication using passport
 passport.use(new LocalStrategy({
         usernameField: 'email',
-        passReqToCallback: true
+        passReqToCallback: true,
     },
+    
     async function(req,email, password, done){
+        try{
         // find a user and establish the identity
-      const user= await  User.findOne({email: email})
+      const user= await  User.findOne({email: email});
+      console.log(user)
       const validPassword = await bcrypt.compare(req.body.password, user.password);
           // console.log(user.password,password);
              if (!user ||(!validPassword)){
@@ -21,7 +24,11 @@ passport.use(new LocalStrategy({
          }
 
             return done(null, user);
-        })
+        }catch(err){
+            res.status(404).json('some error occured try again or contact us')
+        }
+    })
+    
     
 
 
@@ -62,6 +69,7 @@ passport.setAuthenticatedUser = function(req, res, next){
         // req.user contains the current signed in user from the session cookie and we are just sending this to the locals for the views
       console.log(req.user)
         res.locals.user = req.user;
+        console.log("%%%%%%%%%%",req.user)
     }
 
     next();
