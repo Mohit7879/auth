@@ -3,7 +3,7 @@ const jwt=require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require("nodemailer");
 
-
+//
 module.exports.forgot_pass=async(req,res)=>{
 
     try{
@@ -30,9 +30,9 @@ module.exports.forgot_pass=async(req,res)=>{
           const data={
             
             from:'mohityadavkkn25@gmail.com',
-            to:'mohityadavkkn25@gmail.com',
+            to:`${req.body.email}`,
             subject:'password reset',
-            html:`<p><a href="http://localhost:800/resetpassword/${token}">link</a> </p>`,
+            html:`<p><a href="http://localhost:8000/password/resetpassword/${token}">link</a> </p>`,
            
           }
           
@@ -66,7 +66,7 @@ module.exports.forgot_pass=async(req,res)=>{
 
 }
 
-
+//  update using link in email
 
 module.exports.updatepass=async(req,res)=>{
  
@@ -74,7 +74,7 @@ module.exports.updatepass=async(req,res)=>{
         
     const token=req.body.token;
     const password=req.body.password;
-    //console.log("@@@@@@@@@",token);
+    console.log("@@@@@@@@@",token);
 
     if(token){
       let user  =  await User.findOne({resetLink:token})

@@ -14,9 +14,9 @@ app.use(express.urlencoded({
     extended: true,
 }))  
 
+const uri="mongodb+srv://mohityadavkkn25:61jnZs3TPXRiDJx9@cluster0.mzjfosx.mongodb.net/?retryWrites=true&w=majority"
 
-
-mongoose.connect("mongodb://127.0.0.1:27017/signupDB", {useNewUrlParser : true, useUnifiedTopology : true})
+mongoose.connect(uri, {useNewUrlParser : true, useUnifiedTopology : true})
 .then(()=> {
     console.log("App is now connected to DB")
 }).catch((err)=> {

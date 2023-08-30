@@ -1,6 +1,7 @@
 const router=require('express').Router();
 const home_controller=require('../controller/home_controller')
 const User=require('../model/user');
+const bcrypt=require('bcryptjs')
 
 router.get('/signuppage',(req,res)=>{
     res.render('signup');
