@@ -27,7 +27,7 @@ router.post('/create',async (req,res)=>{
     password : hashedPassword ,
 
    });
-   return res.send('created');
+   return res.render('signin');
     
 })
 
